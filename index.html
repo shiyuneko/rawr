@@ -3,18 +3,12 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=800, height=400, initial-scale=1, maximum-scale=1, user-scalable=no" />
-<title>Category Values Calculator - Step by Step with Breakdown</title>
+<title>Category Values Calculator - Step by Step with Breakdown and Touch Fix</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
   * {
     box-sizing: border-box;
-  }
-
-  /* Enable touch manipulation for better touchscreen responsiveness */
-  body, button, input {
-    -webkit-tap-highlight-color: transparent;
-    touch-action: manipulation;
   }
 
   body {
@@ -87,7 +81,7 @@
   button {
     background-color: #222;
     color: #bbb;
-    padding: 12px 20px;
+    padding: 10px 16px;
     font-weight: 700;
     border: 1.5px solid #444;
     border-radius: 8px;
@@ -95,8 +89,7 @@
     transition: background-color 0.3s ease, color 0.3s ease;
     margin: 10px 8px 0 0;
     user-select: none;
-    min-width: 90px;
-    min-height: 44px; /* touch friendly height */
+    touch-action: manipulation;
   }
 
   button:hover:not(:disabled) {
@@ -165,6 +158,7 @@
     padding: 4px 10px;
     margin-top: 3px;
     user-select: none;
+    touch-action: manipulation;
   }
   .add-pair-btn:hover {
     background: #555;
@@ -261,7 +255,7 @@
     <label for="numCategories">Enter the number of categories (required):</label>
     <input type="number" id="numCategories" min="1" value="1" required />
     <div id="navigationNum">
-      <button id="numNextBtn" type="button">Next &raquo;</button>
+      <button id="numNextBtn" type="button" aria-label="Next step button">Next &raquo;</button>
     </div>
   </section>
 
@@ -272,8 +266,8 @@
       <!-- Dynamic content goes here -->
     </div>
     <div id="navigationCat">
-      <button id="catPrevBtn" type="button">&laquo; Previous</button>
-      <button id="catNextBtn" type="button">Next &raquo;</button>
+      <button id="catPrevBtn" type="button" aria-label="Previous category button">&laquo; Previous</button>
+      <button id="catNextBtn" type="button" aria-label="Next category button or show results">Next &raquo;</button>
     </div>
   </section>
 
@@ -282,8 +276,8 @@
     <h1>Results</h1>
     <div id="resultsList" aria-live="polite" role="region" style="flex:1; overflow-y:auto;"></div>
     <div id="navigationResults">
-      <button id="resultsBackBtn" type="button">&laquo; Back</button>
-      <button id="resultsResetBtn" type="button">Start Over</button>
+      <button id="resultsBackBtn" type="button" aria-label="Back to category input"> &laquo; Back</button>
+      <button id="resultsResetBtn" type="button" aria-label="Start over from beginning">Start Over</button>
     </div>
   </section>
 </div>
@@ -308,7 +302,7 @@
     const resultsBackBtn = document.getElementById('resultsBackBtn');
     const resultsResetBtn = document.getElementById('resultsResetBtn');
 
-    // Updated fixed subcategories and multipliers (7 total)
+    // Updated fixed subcategories and multipliers per user request
     const subCategories = [
       { name: 'lipat masuk kantong', value: 1200 },
       { name: 'masuk kantong', value: 600 },
@@ -337,7 +331,7 @@
     }
 
     // Initial page: user inputs number of categories
-    numNextBtn.addEventListener('click', () => {
+    function nextStepHandler() {
       const val = parseInt(numCategoriesInput.value);
       if(isNaN(val) || val < 1) {
         alert('Please enter a valid number of categories (at least 1).');
@@ -348,7 +342,21 @@
       currentCategoryIndex = 0;
       buildCategoryForm(currentCategoryIndex);
       showPage('category');
-    });
+    }
+
+    // Attach click and touchstart handlers for better touchscreen support
+    function addClickAndTouchHandler(element, handler) {
+      element.addEventListener('click', ev => {
+        ev.preventDefault();
+        handler();
+      });
+      element.addEventListener('touchstart', ev => {
+        ev.preventDefault();
+        handler();
+      }, {passive: false});
+    }
+
+    addClickAndTouchHandler(numNextBtn, nextStepHandler);
 
     // Reset category data array with empty data for all categories
     function resetCategoryData() {
@@ -394,6 +402,7 @@
         addBtn.type = 'button';
         addBtn.className = 'add-pair-btn';
         addBtn.textContent = '+ Add Name & Value';
+        addBtn.setAttribute('aria-label', `Add name and value pair for subcategory ${subcat.name}`);
         addBtn.addEventListener('click', () => addNameValuePair(pairsContainer));
         subDiv.appendChild(pairsContainer);
         subDiv.appendChild(addBtn);
@@ -502,37 +511,36 @@
     }
 
     // Navigate category pages prev/next
-    catPrevBtn.addEventListener('click', () => {
+    function onCatPrev() {
       saveCategoryForm();
       if(currentCategoryIndex > 0) {
         currentCategoryIndex--;
         buildCategoryForm(currentCategoryIndex);
       }
-    });
+    }
 
-    catNextBtn.addEventListener('click', () => {
-      // Validate current category inputs before proceeding
+    function onCatNext() {
       if(!validateCurrentCategory()) return;
-
       saveCategoryForm();
-
       if(currentCategoryIndex < numCategories - 1) {
         currentCategoryIndex++;
         buildCategoryForm(currentCategoryIndex);
       } else {
-        // Show results page
         showResultsPage();
       }
-    });
+    }
+
+    addClickAndTouchHandler(catPrevBtn, onCatPrev);
+    addClickAndTouchHandler(catNextBtn, onCatNext);
 
     // On results "Back" go back to last category input page
-    resultsBackBtn.addEventListener('click', () => {
+    addClickAndTouchHandler(resultsBackBtn, () => {
       showPage('category');
       buildCategoryForm(currentCategoryIndex);
     });
 
     // On results "Start Over" go back to first page blank
-    resultsResetBtn.addEventListener('click', () => {
+    addClickAndTouchHandler(resultsResetBtn, () => {
       currentCategoryIndex = 0;
       categoryData.length = 0;
       numCategoriesInput.value = '1';
@@ -640,3 +648,4 @@
 </script>
 </body>
 </html>
+
