@@ -1,248 +1,248 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=800, height=400, initial-scale=1, maximum-scale=1, user-scalable=no" />
-  <title>Category Values Calculator - Step by Step with Breakdown</title>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=800, height=400, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Category Values Calculator - Step by Step with Breakdown + G</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
-    * {
-      box-sizing: border-box;
-    }
+  * {
+    box-sizing: border-box;
+  }
 
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background-color: #000;
-      color: #ccc;
-      overflow: hidden;
-      height: 100vh;
-      width: 100vw;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+  body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #000;
+    color: #ccc;
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 
-    #app {
-      background: #121212;
-      border: 2px solid #333;
-      border-radius: 12px;
-      width: 800px;
-      height: 400px;
-      display: flex;
-      flex-direction: column;
-      padding: 16px;
-      color: #ddd;
-    }
+  #app {
+    background: #121212;
+    border: 2px solid #333;
+    border-radius: 12px;
+    width: 800px;
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    padding: 16px;
+    color: #ddd;
+  }
 
-    .page {
-      display: none;
-      flex: 1;
-      overflow-y: auto;
-      padding-right: 12px;
-    }
+  .page {
+    display: none;
+    flex: 1;
+    overflow-y: auto;
+    padding-right: 12px;
+  }
 
-    .page.active {
-      display: flex;
-      flex-direction: column;
-    }
+  .page.active {
+    display: flex;
+    flex-direction: column;
+  }
 
-    h1 {
-      margin-top: 0;
-      font-weight: 600;
-      font-size: 1.8rem;
-      color: #bbb;
-      margin-bottom: 16px;
-    }
+  h1 {
+    margin-top: 0;
+    font-weight: 600;
+    font-size: 1.8rem;
+    color: #bbb;
+    margin-bottom: 16px;
+  }
 
-    label {
-      font-weight: 600;
-      margin: 8px 0 4px 0;
-      display: block;
-    }
+  label {
+    font-weight: 600;
+    margin: 8px 0 4px 0;
+    display: block;
+  }
 
-    input[type=number], input[type=text] {
-      width: 100%;
-      border: none;
-      border-radius: 6px;
-      padding: 6px 10px;
-      font-size: 1rem;
-      background-color: #222;
-      color: #ccc;
-    }
+  input[type=number], input[type=text] {
+    width: 100%;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 1rem;
+    background-color: #222;
+    color: #ccc;
+  }
 
-    input[type=number]::-webkit-inner-spin-button,
-    input[type=number]::-webkit-outer-spin-button {
-      -webkit-appearance: none;
-      margin: 0;
-    }
+  input[type=number]::-webkit-inner-spin-button,
+  input[type=number]::-webkit-outer-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
 
-    button {
-      background-color: #222;
-      color: #bbb;
-      padding: 10px 16px;
-      font-weight: 700;
-      border: 1.5px solid #444;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: background-color 0.3s ease, color 0.3s ease;
-      margin: 10px 8px 0 0;
-      user-select: none;
-    }
+  button {
+    background-color: #222;
+    color: #bbb;
+    padding: 10px 16px;
+    font-weight: 700;
+    border: 1.5px solid #444;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    margin: 10px 8px 0 0;
+    user-select: none;
+  }
 
-    button:hover:not(:disabled) {
-      background-color: #666;
-      color: #000;
-      border-color: #999;
-    }
+  button:hover:not(:disabled) {
+    background-color: #666;
+    color: #000;
+    border-color: #999;
+  }
 
-    button:disabled {
-      opacity: 0.4;
-      cursor: default;
-    }
+  button:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
 
-    .category-form {
-      flex: 1;
-      background: #181818;
-      padding: 12px;
-      border-radius: 10px;
-      box-shadow: 0 0 6px #222 inset;
-      display: flex;
-      flex-direction: column;
-    }
+  .category-form {
+    flex: 1;
+    background: #181818;
+    padding: 12px;
+    border-radius: 10px;
+    box-shadow: 0 0 6px #222 inset;
+    display: flex;
+    flex-direction: column;
+  }
 
-    .subcategory {
-      margin-bottom: 14px;
-    }
+  .subcategory {
+    margin-bottom: 14px;
+  }
 
-    .subcategory > h3 {
-      margin: 4px 0 6px 0;
-      color: #aaa;
-      font-weight: 600;
-    }
+  .subcategory > h3 {
+    margin: 4px 0 6px 0;
+    color: #aaa;
+    font-weight: 600;
+  }
 
-    .pairs-container {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      max-height: 190px;
-      overflow-y: auto;
-    }
+  .pairs-container {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    max-height: 190px;
+    overflow-y: auto;
+  }
 
-    .pair-row {
-      display: flex;
-      gap: 8px;
-    }
+  .pair-row {
+    display: flex;
+    gap: 8px;
+  }
 
-    .pair-row input[type=text],
-    .pair-row input[type=number] {
-      font-size: 0.95rem;
-    }
-    .pair-row input[type=text] {
-      flex: 1 1 auto;
-    }
-    .pair-row input[type=number] {
-      flex: 0 0 80px;
-    }
+  .pair-row input[type=text],
+  .pair-row input[type=number] {
+    font-size: 0.95rem;
+  }
+  .pair-row input[type=text] {
+    flex: 1 1 auto;
+  }
+  .pair-row input[type=number] {
+    flex: 0 0 80px;
+  }
 
-    .add-pair-btn {
-      font-size: 0.85rem;
-      background: #111;
-      color: #888;
-      border: 1px solid #555;
-      border-radius: 6px;
-      cursor: pointer;
-      align-self: flex-start;
-      padding: 4px 10px;
-      margin-top: 3px;
-      user-select: none;
-    }
-    .add-pair-btn:hover {
-      background: #555;
-      color: #ddd;
-      border-color: #888;
-    }
+  .add-pair-btn {
+    font-size: 0.85rem;
+    background: #111;
+    color: #888;
+    border: 1px solid #555;
+    border-radius: 6px;
+    cursor: pointer;
+    align-self: flex-start;
+    padding: 4px 10px;
+    margin-top: 3px;
+    user-select: none;
+  }
+  .add-pair-btn:hover {
+    background: #555;
+    color: #ddd;
+    border-color: #888;
+  }
 
-    #navigation {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 16px;
-    }
+  #navigation {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+  }
 
-    #resultsList {
-      overflow-y: auto;
-      max-height: 100%;
-      padding-right: 8px;
-    }
+  #resultsList {
+    overflow-y: auto;
+    max-height: 100%;
+    padding-right: 8px;
+  }
 
-    .result-item {
-      border-bottom: 1px solid #333;
-      padding: 12px 16px;
-      font-weight: 600;
-      font-size: 1.15rem;
-      background-color: #222;
-      border-radius: 8px;
-      margin-bottom: 10px;
-    }
+  .result-item {
+    border-bottom: 1px solid #333;
+    padding: 12px 16px;
+    font-weight: 600;
+    font-size: 1.15rem;
+    background-color: #222;
+    border-radius: 8px;
+    margin-bottom: 10px;
+  }
 
-    .result-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
+  .result-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 
-    .result-name {
-      font-weight: 700;
-      font-size: 1.3rem;
-    }
+  .result-name {
+    font-weight: 700;
+    font-size: 1.3rem;
+  }
 
-    .result-total {
-      font-weight: 700;
-      font-size: 1.3rem;
-      color: #7de8d5;
-    }
+  .result-total {
+    font-weight: 700;
+    font-size: 1.3rem;
+    color: #7de8d5;
+  }
 
-    .breakdown {
-      margin-top: 8px;
-      border-top: 1px solid #444;
-      padding-top: 8px;
-      display: grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr;
-      gap: 10px 20px;
-      font-weight: 400;
-      font-size: 0.95rem;
-      color: #999;
-    }
+  .breakdown {
+    margin-top: 8px;
+    border-top: 1px solid #444;
+    padding-top: 8px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 10px 20px;
+    font-weight: 400;
+    font-size: 0.95rem;
+    color: #999;
+  }
 
-    .breakdown-item {
-      display: flex;
-      flex-direction: column;
-    }
+  .breakdown-item {
+    display: flex;
+    flex-direction: column;
+  }
 
-    .subcat-name {
-      font-weight: 600;
-      color: #aacccc;
-      margin-bottom: 2px;
-    }
+  .subcat-name {
+    font-weight: 600;
+    color: #aacccc;
+    margin-bottom: 2px;
+  }
 
-    .subcat-info {
-      white-space: nowrap;
-    }
+  .subcat-info {
+    white-space: nowrap;
+  }
 
-    /* Scrollbar */
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: #111;
-    }
-    ::-webkit-scrollbar-thumb {
-      background: #444;
-      border-radius: 8px;
-    }
-  </style>
+  /* Scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #111;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #444;
+    border-radius: 8px;
+  }
+</style>
 </head>
 <body>
 <div id="app">
@@ -300,15 +300,15 @@
     const resultsBackBtn = document.getElementById('resultsBackBtn');
     const resultsResetBtn = document.getElementById('resultsResetBtn');
 
-    // Fixed subcategories and multipliers
+    // Fixed subcategories and multipliers with added "g"
     const subCategories = [
-      { name: 'lipat masuk kantong', value: 1200 },
-      { name: 'masuk kantong', value: 600 },
-      { name: 'lipat', value: 600 },
-      { name: 'buang benang', value: 1200 },
-      { name: 'susun baju', value: 600 },
-      { name: 'gosok', value: 1200 }
-      { name: 'hantex', value: 400 }
+      { name: 'a', value: 2 },
+      { name: 'b', value: 3 },
+      { name: 'c', value: 4 },
+      { name: 'd', value: 5 },
+      { name: 'e', value: 6 },
+      { name: 'f', value: 7 },
+      { name: 'g', value: 8 }
     ];
 
     let numCategories = 1;
@@ -346,7 +346,7 @@
     function resetCategoryData() {
       categoryData.length = 0;
       for(let i=0; i<numCategories; i++) {
-        // For each category: pre-create empty arrays for each subcategory index (0 to 5)
+        // For each category: pre-create empty arrays for each subcategory index (0 to 6)
         const catObj = {};
         subCategories.forEach((_, idx) => {
           catObj[idx] = [{name:'', value:''}]; // start with one empty pair for input
@@ -567,7 +567,6 @@
           total += subTotal;
           breakdown.push({subcatName, rawValue, multiplier, subTotal});
         }
-        // Sort breakdown by multiplier descending for nicer display
         breakdown.sort((a,b) => b.multiplier - a.multiplier);
         resultsData.push({name, total, breakdown});
       }
@@ -595,7 +594,7 @@
           mainLine.appendChild(totalDiv);
           container.appendChild(mainLine);
 
-          // Breakdown
+          // Breakdown grid
           const breakdownDiv = document.createElement('div');
           breakdownDiv.className = 'breakdown';
           r.breakdown.forEach(b => {
@@ -608,8 +607,8 @@
 
             const subcatInfo = document.createElement('div');
             subcatInfo.className = 'subcat-info';
-            subcatInfo.textContent =
-                    `Sum: ${b.rawValue.toFixed(4)}, Multiplier: ${b.multiplier}, Subtotal: ${b.subTotal.toFixed(4)}`;
+            subcatInfo.textContent = 
+              `Sum: ${b.rawValue.toFixed(4)} × ${b.multiplier} = ${b.subTotal.toFixed(4)}`;
 
             breakdownItem.appendChild(subcatName);
             breakdownItem.appendChild(subcatInfo);
